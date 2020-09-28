@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # You
 
-* Are familiar with R and dplyr. 
+* Are familiar with R, Rmarkdown notebooks, and dplyr. 
 
 * Are new to working with dates and times
 
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Getting started
 
 
-* For this adventure you'll need the `tidyverse` meta-package, `lubridate` (part of the tidyverse). We will also need the package `read_xl`
+* For this adventure you'll need the `tidyverse` meta-package, `lubridate` (part of the tidyverse). We will also need the package `readxl`
 
 ```{r packages, eval = TRUE}
 #install.packages("tidyverse")
@@ -49,7 +49,7 @@ library(readxl)
 
 * Identify the order in which the year (`y`), month (`m`), and day (`d`) appears in your dates. 
 
-* Let's look at October 2, 2020 written three ways.
+* Let's look at October 2, 2020.
 
 ```{r}
 
@@ -58,30 +58,17 @@ ymd("20201002")
 ```
 
 
-```{r}
-
-mdy("10-02-2020")
-
-```
-
-
 ```{r, eval = FALSE}
 
-___("02/10/2020")
+___("10-02-2020")
 
 ```
+
 
 # Parsing dates and times using helpers 
 
 
 * For date-times, we can add an underscore and one of more `h` `m` and `s` to our parsing function.
-
-```{r, eval = FALSE}
-
-ymd_hms("20201002 143000")
-
-```
-
 
 * What helper would we use for October 3, 2020 if it comes in this format?
 
@@ -133,7 +120,7 @@ Fill in the blank to determine what day of the week our courses fall on
 ```{r, eval = FALSE}
 
 schedule %>%
-  mutate(weekday = ____(start_date_time)) 
+  mutate(weekday = ____(date)) 
 
 ```
 
@@ -159,20 +146,6 @@ schedule <- schedule %>%
 ```
 
 
-```{r, eval = TRUE, echo = FALSE}
-
-schedule <- schedule %>%
-              mutate(end_date_time = make_datetime(
-                year = year(date), 
-                month = month(date), 
-                day = day(date), 
-                hour = end_time, 
-                tz = "Europe/London")
-                )
-
-
-```
-
 
 # Changing timezones with `with_tz`
 
@@ -181,14 +154,17 @@ But what is the time in Jamaica?
 ```{r}
 
 schedule <- schedule %>%
-              mutate(start_date_time_bz = with_tz(
+              mutate(start_date_time_jam = with_tz(
                 start_date_time, 
                 tz = "America/Jamaica"))
 
 ```
 
 
-* Try changing it for your country.
+
+# Having some fun
+
+* Try changing the tz to Belize.
 
 Hint: Run `OlsonNames(tzdir = NULL)` to find the correct time zone
 
@@ -202,10 +178,6 @@ schedule <- schedule %>%
                 tz = "_____"))
 
 ```
-
-
-
-# Having some fun
 
 
 When do the delegates from Belize get to sleep in?

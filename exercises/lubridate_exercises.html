@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dr. Laurie Baker" />
 
-<meta name="date" content="2020-09-26" />
+<meta name="date" content="2020-09-28" />
 
 <title>Lubridate Exercises</title>
 
@@ -365,7 +365,7 @@ summary {
 
 <h1 class="title toc-ignore">Lubridate Exercises</h1>
 <h4 class="author">Dr. Laurie Baker</h4>
-<h4 class="date">2020-09-26</h4>
+<h4 class="date">2020-09-28</h4>
 
 </div>
 
@@ -373,7 +373,7 @@ summary {
 <div id="you" class="section level1">
 <h1>You</h1>
 <ul>
-<li><p>Are familiar with R and dplyr.</p></li>
+<li><p>Are familiar with R, Rmarkdown notebooks, and dplyr.</p></li>
 <li><p>Are new to working with dates and times</p></li>
 <li><p>Want to learn easy ways to extract information from dates and times.</p></li>
 </ul>
@@ -389,19 +389,19 @@ summary {
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
 <ul>
-<li>For this adventure you’ll need the <code>tidyverse</code> meta-package, <code>lubridate</code> (part of the tidyverse). We will also need the package <code>read_xl</code></li>
+<li>For this adventure you’ll need the <code>tidyverse</code> meta-package, <code>lubridate</code> (part of the tidyverse). We will also need the package <code>readxl</code></li>
 </ul>
 <pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
 #install.packages(&quot;lubridate&quot;)
 #install.packages(&quot;readxl&quot;)
 
 library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages ------------------</code></pre>
+<pre><code>## -- Attaching packages ------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.2.1     v purrr   0.3.3
 ## v tibble  2.1.3     v dplyr   0.8.3
 ## v tidyr   1.0.0     v stringr 1.4.0
 ## v readr   1.3.1     v forcats 0.4.0</code></pre>
-<pre><code>## -- Conflicts -- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ---------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(lubridate)</code></pre>
@@ -422,22 +422,17 @@ library(tidyverse)</code></pre>
 <h1>Parsing dates and times using helpers</h1>
 <ul>
 <li><p>Identify the order in which the year (<code>y</code>), month (<code>m</code>), and day (<code>d</code>) appears in your dates.</p></li>
-<li><p>Let’s look at October 2, 2020 written three ways.</p></li>
+<li><p>Let’s look at October 2, 2020.</p></li>
 </ul>
 <pre class="r"><code>ymd(&quot;20201002&quot;)</code></pre>
 <pre><code>## [1] &quot;2020-10-02&quot;</code></pre>
-<pre class="r"><code>mdy(&quot;10-02-2020&quot;)</code></pre>
-<pre><code>## [1] &quot;2020-10-02&quot;</code></pre>
-<pre class="r"><code>___(&quot;02/10/2020&quot;)</code></pre>
+<pre class="r"><code>___(&quot;10-02-2020&quot;)</code></pre>
 </div>
 <div id="parsing-dates-and-times-using-helpers-1" class="section level1">
 <h1>Parsing dates and times using helpers</h1>
 <ul>
-<li>For date-times, we can add an underscore and one of more <code>h</code> <code>m</code> and <code>s</code> to our parsing function.</li>
-</ul>
-<pre class="r"><code>ymd_hms(&quot;20201002 143000&quot;)</code></pre>
-<ul>
-<li>What helper would we use for October 3, 2020 if it comes in this format?</li>
+<li><p>For date-times, we can add an underscore and one of more <code>h</code> <code>m</code> and <code>s</code> to our parsing function.</p></li>
+<li><p>What helper would we use for October 3, 2020 if it comes in this format?</p></li>
 </ul>
 <pre class="r"><code>____(&quot;03/10/20 15:32:05&quot;)</code></pre>
 <p>Times are supplied in <code>UTC</code>, the coordinated universal time, unless we specify a time zone (tz).</p>
@@ -487,7 +482,7 @@ head(schedule)</code></pre>
 <h1>Getting components</h1>
 <p>Fill in the blank to determine what day of the week our courses fall on</p>
 <pre class="r"><code>schedule %&gt;%
-  mutate(weekday = ____(start_date_time)) </code></pre>
+  mutate(weekday = ____(date)) </code></pre>
 <p>We can change the arguments label = TRUE, abbr = FALSE.</p>
 </div>
 <div id="creating-a-date-time-from-date-time-components" class="section level1">
@@ -507,11 +502,14 @@ head(schedule)</code></pre>
 <h1>Changing timezones with <code>with_tz</code></h1>
 <p>But what is the time in Jamaica?</p>
 <pre class="r"><code>schedule &lt;- schedule %&gt;%
-              mutate(start_date_time_bz = with_tz(
+              mutate(start_date_time_jam = with_tz(
                 start_date_time, 
                 tz = &quot;America/Jamaica&quot;))</code></pre>
+</div>
+<div id="having-some-fun" class="section level1">
+<h1>Having some fun</h1>
 <ul>
-<li>Try changing it for your country.</li>
+<li>Try changing the tz to Belize.</li>
 </ul>
 <p>Hint: Run <code>OlsonNames(tzdir = NULL)</code> to find the correct time zone</p>
 <pre class="r"><code>OlsonNames(tzdir = NULL)
@@ -520,9 +518,6 @@ schedule &lt;- schedule %&gt;%
               mutate(start_date_time___ = with_tz(
                 start_date_time, 
                 tz = &quot;_____&quot;))</code></pre>
-</div>
-<div id="having-some-fun" class="section level1">
-<h1>Having some fun</h1>
 <p>When do the delegates from Belize get to sleep in?</p>
 <pre class="r"><code>schedule %&gt;%
   filter(______(start_date_time_bz) &gt; 7) %&gt;%
