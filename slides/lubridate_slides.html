@@ -4,7 +4,7 @@
     <title>Getting and setting dates and times with</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Laurie Baker" />
-    <meta name="date" content="2020-09-26" />
+    <meta name="date" content="2020-09-28" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -44,7 +44,7 @@ class: title-slide, center, bottom
 
 # You
 
-* Are familiar with R and dplyr. 
+* Are familiar with R, Rmarkdown notebooks, and dplyr. 
 
 * Are new to working with dates and times in R
 
@@ -65,15 +65,10 @@ Artwork by @allison_horst
 * Learn how to change time zones with `with_tz`
 
 ---
-
-
-![\Concept Map](images/concept_map.png) 
-
----
 # Getting started
 
 
-* For this adventure you'll need the `tidyverse` meta-package, `lubridate` (part of the tidyverse). We will also need the package `read_xl`
+* For this adventure you'll need the `tidyverse` meta-package, `lubridate` (part of the tidyverse). We will also need the package `readxl`
 
 
 ```r
@@ -124,6 +119,8 @@ Type can be
 2. A time (`&lt;time&gt;`)
 3. A date-time (`&lt;dttm&gt;`) a date plus time. 
 
+--
+
 Can be built from
 
 * Strings: 09/10/2010
@@ -144,7 +141,7 @@ Artwork by @allison_horst
 
 * Identify the order in which the year (`y`), month (`m`), and day (`d`) appears in your dates.
 
-* Let's look at October 2, 2020 written three ways.
+* Let's look at October 2, 2020.
 
 
 ```r
@@ -159,19 +156,9 @@ ymd("20201002")
 
 
 ```r
-mdy("10-02-2020")
+___("10-02-2020")
 ```
 
-```
-## [1] "2020-10-02"
-```
-
---
-
-
-```r
-___("02/10/2020")
-```
 
 ---
 # Parsing dates and times using helpers 
@@ -179,12 +166,6 @@ ___("02/10/2020")
 
 * For date-times, we can add an underscore and one of more `h` `m` and `s` to our parsing function.
 
-
-```r
-ymd_hms("20201002 143000")
-```
-
---
 
 * What helper would we use for October 3, 2020 if it comes in this format?
 
@@ -263,7 +244,7 @@ Fill in the blank to determine what day of the week our courses fall on
 
 ```r
 schedule %&gt;%
-  mutate(weekday = ____(start_date_time)) 
+  mutate(weekday = ____(date)) 
 ```
 
 We can change the arguments label = TRUE, abbr = FALSE.
@@ -293,7 +274,6 @@ schedule &lt;- schedule %&gt;%
 
 
 
-
 ---
 # Changing timezones with `with_tz`
 
@@ -307,21 +287,12 @@ schedule &lt;- schedule %&gt;%
                 tz = "America/Jamaica"))
 ```
 
---
 
-* Try changing it for your country.
-
-Hint: Run `OlsonNames(tzdir = NULL)` to find the correct time zone
+---
 
 
-```r
-OlsonNames(tzdir = NULL)
+![\Concept Map](images/concept_map.png) 
 
-schedule &lt;- schedule %&gt;%
-              mutate(start_date_time___ = with_tz(
-                start_date_time, 
-                tz = "_____"))
-```
 
 ---
 
@@ -340,9 +311,23 @@ The chakra comes from [remark.js](https://remarkjs.com), [**knitr**](http://yihu
 
 The gorgeous artwork comes from [@allison_horst](https://github.com/allisonhorst/stats-illustrations)
 
-
 ---
 # Having some fun
+
+
+* Try changing the country to Belize
+
+Hint: Run `OlsonNames(tzdir = NULL)` to find the correct time zone
+
+
+```r
+OlsonNames(tzdir = NULL)
+
+schedule &lt;- schedule %&gt;%
+              mutate(start_date_time___ = with_tz(
+                start_date_time, 
+                tz = "_____"))
+```
 
 
 Fill in the blanks to find out what time the delegates from Belize get to sleep in?
