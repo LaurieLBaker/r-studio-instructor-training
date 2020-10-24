@@ -4,7 +4,7 @@
     <title>Getting and setting dates and times with</title>
     <meta charset="utf-8" />
     <meta name="author" content="Dr. Laurie Baker" />
-    <meta name="date" content="2020-09-28" />
+    <meta name="date" content="2020-10-24" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -184,8 +184,21 @@ Times are supplied in `UTC`, the coordinated universal time, unless we specify a
 Let's take a look at our training schedule 
 
 
+```
+## # A tibble: 6 x 5
+##   date                start_time end_time topic                   type        
+##   &lt;dttm&gt;                   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                   &lt;chr&gt;       
+## 1 2020-09-18 00:00:00         14       16 Introduction to R       workshop    
+## 2 2020-10-02 00:00:00         14       17 Data Wrangling in R     training    
+## 3 2020-10-09 00:00:00         14       16 Data Wrangling in R     workshop    
+## 4 2020-10-16 00:00:00         14       17 Data Visualisation in R training    
+## 5 2020-10-23 00:00:00         14       16 Data Visualisation in R workshop    
+## 6 2020-10-30 00:00:00         14       16 Show and Tell           presentation
+```
+
+
 ```r
-path &lt;- file.path("../data", "training_schedule.xlsx")
+path &lt;- here::here("../data","training_schedule.xlsx")
 schedule &lt;- read_xlsx(path)
 
 schedule &lt;- schedule %&gt;%
@@ -194,17 +207,6 @@ schedule &lt;- schedule %&gt;%
 head(schedule)
 ```
 
-```
-## # A tibble: 6 x 5
-##   date                start_time end_time topic                 type       
-##   &lt;dttm&gt;                   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;      
-## 1 2020-09-18 00:00:00         14       16 Introduction to R     workshop   
-## 2 2020-10-02 00:00:00         14       17 Data Wrangling in R   training   
-## 3 2020-10-09 00:00:00         14       16 Data Wrangling in R   workshop   
-## 4 2020-10-16 00:00:00         14       17 Data Visualisation i~ training   
-## 5 2020-10-23 00:00:00         14       16 Data Visualisation i~ workshop   
-## 6 2020-10-30 00:00:00         14       16 Show and Tell         presentati~
-```
 
 
 ---
@@ -226,14 +228,14 @@ schedule %&gt;%
 
 ```
 ## # A tibble: 6 x 6
-##   date                start_time end_time topic             type       year
-##   &lt;dttm&gt;                   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;     &lt;dbl&gt;
-## 1 2020-09-18 00:00:00         14       16 Introduction to R workshop   2020
-## 2 2020-10-02 00:00:00         14       17 Data Wrangling i~ training   2020
-## 3 2020-10-09 00:00:00         14       16 Data Wrangling i~ workshop   2020
-## 4 2020-10-16 00:00:00         14       17 Data Visualisati~ training   2020
-## 5 2020-10-23 00:00:00         14       16 Data Visualisati~ workshop   2020
-## 6 2020-10-30 00:00:00         14       16 Show and Tell     presenta~  2020
+##   date                start_time end_time topic                 type        year
+##   &lt;dttm&gt;                   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;                 &lt;chr&gt;      &lt;dbl&gt;
+## 1 2020-09-18 00:00:00         14       16 Introduction to R     workshop    2020
+## 2 2020-10-02 00:00:00         14       17 Data Wrangling in R   training    2020
+## 3 2020-10-09 00:00:00         14       16 Data Wrangling in R   workshop    2020
+## 4 2020-10-16 00:00:00         14       17 Data Visualisation i~ training    2020
+## 5 2020-10-23 00:00:00         14       16 Data Visualisation i~ workshop    2020
+## 6 2020-10-30 00:00:00         14       16 Show and Tell         presentat~  2020
 ```
 ---
 
@@ -400,6 +402,32 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {
@@ -417,17 +445,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
 <script>
 slideshow._releaseMath = function(el) {
