@@ -74,7 +74,10 @@ ___("10-02-2020")
 
 ```{r, eval = FALSE}
 
-____("03/10/20 15:32:05")
+dmy_hms("03/10/20 15:32:05")
+library(lubridate)
+library(tidyverse)
+library(readxl)
 
 ```
 
@@ -120,8 +123,15 @@ Fill in the blank to determine what day of the week our courses fall on
 ```{r, eval = FALSE}
 
 schedule %>%
-  mutate(weekday = ____(date)) 
+  mutate(weekday = wday(date, label = TRUE)) 
 
+schedule$date[1]
+
+
+parse_date_time(c("March 2002"))
+
+month(m("March"), label = FALSE)
+month(fast_strptime("March", '%m')) 
 ```
 
 We can change the arguments label = TRUE, abbr = FALSE.
@@ -154,9 +164,9 @@ But what is the time in Jamaica?
 ```{r}
 
 schedule <- schedule %>%
-              mutate(start_date_time_jam = with_tz(
+              mutate(start_date_time_can = with_tz(
                 start_date_time, 
-                tz = "America/Jamaica"))
+                tz = "America/Toronto"))
 
 ```
 
@@ -173,9 +183,9 @@ Hint: Run `OlsonNames(tzdir = NULL)` to find the correct time zone
 OlsonNames(tzdir = NULL)
 
 schedule <- schedule %>%
-              mutate(start_date_time___ = with_tz(
+              mutate(start_date_time_bz = with_tz(
                 start_date_time, 
-                tz = "_____"))
+                tz = "America/Belize"))
 
 ```
 
@@ -185,7 +195,7 @@ When do the delegates from Belize get to sleep in?
 ```{r, eval = FALSE}
 
 schedule %>%
-  filter(______(start_date_time_bz) > 7) %>%
+  filter(hour(start_date_time_bz) > 7) %>%
   select(start_date_time_bz)
 
 ```
