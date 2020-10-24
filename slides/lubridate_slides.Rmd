@@ -225,9 +225,9 @@ Times are supplied in `UTC`, the coordinated universal time, unless we specify a
 
 Let's take a look at our training schedule 
 
-```{r}
+```{r, echo = FALSE, eval = TRUE}
 
-path <- file.path("../data", "training_schedule.xlsx")
+path <- here::here("data","training_schedule.xlsx")
 schedule <- read_xlsx(path)
 
 schedule <- schedule %>%
@@ -236,6 +236,19 @@ schedule <- schedule %>%
 head(schedule)
 
 ```
+
+```{r, echo = TRUE, eval = FALSE}
+
+path <- here::here("../data","training_schedule.xlsx")
+schedule <- read_xlsx(path)
+
+schedule <- schedule %>%
+              mutate(date = as_datetime(date))
+
+head(schedule)
+
+```
+
 
 
 ---

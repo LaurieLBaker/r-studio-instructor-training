@@ -89,7 +89,7 @@ Let's take a look at our training schedule
 
 ```{r}
 
-path <- file.path("../data", "training_schedule.xlsx")
+path <- here::here("data", "training_schedule.xlsx")
 schedule <- read_xlsx(path)
 
 schedule <- schedule %>%

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dr. Laurie Baker" />
 
-<meta name="date" content="2020-09-29" />
+<meta name="date" content="2020-10-24" />
 
 <title>Lubridate Exercises</title>
 
@@ -365,7 +365,7 @@ summary {
 
 <h1 class="title toc-ignore">Lubridate Exercises</h1>
 <h4 class="author">Dr. Laurie Baker</h4>
-<h4 class="date">2020-09-29</h4>
+<h4 class="date">2020-10-24</h4>
 
 </div>
 
@@ -396,12 +396,12 @@ summary {
 #install.packages(&quot;readxl&quot;)
 
 library(tidyverse)</code></pre>
-<pre><code>## -- Attaching packages --------------------</code></pre>
+<pre><code>## -- Attaching packages --------------------------- tidyverse 1.3.0 --</code></pre>
 <pre><code>## v ggplot2 3.3.2     v purrr   0.3.3
 ## v tibble  3.0.3     v dplyr   1.0.2
 ## v tidyr   1.1.2     v stringr 1.4.0
 ## v readr   1.3.1     v forcats 0.5.0</code></pre>
-<pre><code>## -- Conflicts ---- tidyverse_conflicts() --
+<pre><code>## -- Conflicts ------------------------------ tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(lubridate)</code></pre>
@@ -434,13 +434,16 @@ library(tidyverse)</code></pre>
 <li><p>For date-times, we can add an underscore and one of more <code>h</code> <code>m</code> and <code>s</code> to our parsing function.</p></li>
 <li><p>What helper would we use for October 3, 2020 if it comes in this format?</p></li>
 </ul>
-<pre class="r"><code>____(&quot;03/10/20 15:32:05&quot;)</code></pre>
+<pre class="r"><code>dmy_hms(&quot;03/10/20 15:32:05&quot;)
+library(lubridate)
+library(tidyverse)
+library(readxl)</code></pre>
 <p>Times are supplied in <code>UTC</code>, the coordinated universal time, unless we specify a time zone (tz).</p>
 </div>
 <div id="a-tale-of-5-time-zones" class="section level1">
 <h1>A tale of 5 time zones…</h1>
 <p>Let’s take a look at our training schedule</p>
-<pre class="r"><code>path &lt;- file.path(&quot;../data&quot;, &quot;training_schedule.xlsx&quot;)
+<pre class="r"><code>path &lt;- here::here(&quot;../data&quot;, &quot;training_schedule.xlsx&quot;)
 schedule &lt;- read_xlsx(path)
 
 schedule &lt;- schedule %&gt;%
@@ -482,7 +485,15 @@ head(schedule)</code></pre>
 <h1>Getting components</h1>
 <p>Fill in the blank to determine what day of the week our courses fall on</p>
 <pre class="r"><code>schedule %&gt;%
-  mutate(weekday = ____(date)) </code></pre>
+  mutate(weekday = wday(date, label = TRUE)) 
+
+schedule$date[1]
+
+
+parse_date_time(c(&quot;March 2002&quot;))
+
+month(m(&quot;March&quot;), label = FALSE)
+month(fast_strptime(&quot;March&quot;, &#39;%m&#39;)) </code></pre>
 <p>We can change the arguments label = TRUE, abbr = FALSE.</p>
 </div>
 <div id="creating-a-date-time-from-date-time-components" class="section level1">
@@ -502,9 +513,9 @@ head(schedule)</code></pre>
 <h1>Changing timezones with <code>with_tz</code></h1>
 <p>But what is the time in Jamaica?</p>
 <pre class="r"><code>schedule &lt;- schedule %&gt;%
-              mutate(start_date_time_jam = with_tz(
+              mutate(start_date_time_can = with_tz(
                 start_date_time, 
-                tz = &quot;America/Jamaica&quot;))</code></pre>
+                tz = &quot;America/Toronto&quot;))</code></pre>
 </div>
 <div id="having-some-fun" class="section level1">
 <h1>Having some fun</h1>
@@ -515,12 +526,12 @@ head(schedule)</code></pre>
 <pre class="r"><code>OlsonNames(tzdir = NULL)
 
 schedule &lt;- schedule %&gt;%
-              mutate(start_date_time___ = with_tz(
+              mutate(start_date_time_bz = with_tz(
                 start_date_time, 
-                tz = &quot;_____&quot;))</code></pre>
+                tz = &quot;America/Belize&quot;))</code></pre>
 <p>When do the delegates from Belize get to sleep in?</p>
 <pre class="r"><code>schedule %&gt;%
-  filter(______(start_date_time_bz) &gt; 7) %&gt;%
+  filter(hour(start_date_time_bz) &gt; 7) %&gt;%
   select(start_date_time_bz)</code></pre>
 </div>
 
